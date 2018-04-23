@@ -25,6 +25,7 @@ import com.example.jiheon.schooltest.network.NetworkService;
 import com.example.jiheon.schooltest.R;
 import com.example.jiheon.schooltest.RetrofitBuilder;
 import com.example.jiheon.schooltest.Utils;
+import com.example.jiheon.schooltest.type.OutType;
 
 import java.util.ArrayList;
 
@@ -185,6 +186,7 @@ public class OutActivity extends FragmentActivity implements DatePickerDialog.On
                     @Override
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
+                            mDatabase.insertOut(startDate, endDate, OutType.OUT);
                             Toast.makeText(OutActivity.this, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 
@@ -210,6 +212,7 @@ public class OutActivity extends FragmentActivity implements DatePickerDialog.On
                     @Override
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
+                            mDatabase.insertOut(startDate, endDate, OutType.SLEEP);
                             Toast.makeText(OutActivity.this, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 

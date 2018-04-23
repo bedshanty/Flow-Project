@@ -66,19 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private Pattern mEmailPattern = Pattern.compile(EMAIL_REGEX);
     private Pattern mPasswordPattern = Pattern.compile(PASSWORD_REGEX);
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-
-    /**
-     * Keep track of the register task to ensure we can cancel it if requested.
-     */
 
     // UI references.
     @BindView(R.id.register_email)   AutoCompleteTextView mEmailView;
