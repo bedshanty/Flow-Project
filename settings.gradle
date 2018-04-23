@@ -1,0 +1,1 @@
+include ':app', ':SchoolMealAPI', ':jsoup-1.11.2'
