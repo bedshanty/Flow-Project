@@ -16,11 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MainActivity" />
-        <activity android:name=".Activity.MealActivity" />
-        <activity android:name=".Activity.SchoolActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MealActivity" />
+        <activity android:name=".activity.SchoolActivity" />
         <activity
-            android:name=".Activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login" >
 
             <intent-filter>
@@ -30,11 +30,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_register" />
-        <activity android:name=".Activity.OutActivity"></activity>
-        <activity android:name=".Activity.TimePickerFragment" />
-        <activity android:name=".Activity.TestActivity"></activity>
+        <activity android:name=".activity.OutActivity"></activity>
+        <activity android:name=".activity.TimePickerFragment" />
+        <activity android:name=".activity.TestActivity"></activity>
     </application>
 
 </manifest>

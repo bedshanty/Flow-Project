@@ -1,6 +1,6 @@
 package com.example.jiheon.schooltest;
 
-import com.example.jiheon.schooltest.Network.NetworkService;
+import com.example.jiheon.schooltest.network.NetworkService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

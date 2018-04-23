@@ -3,7 +3,7 @@ package com.example.jiheon.schooltest;
 import android.annotation.SuppressLint;
 import android.util.Pair;
 
-import com.example.jiheon.schooltest.Model.DateTime;
+import com.example.jiheon.schooltest.model.DateTime;
 
 import org.hyunjun.school.SchoolMenu;
 

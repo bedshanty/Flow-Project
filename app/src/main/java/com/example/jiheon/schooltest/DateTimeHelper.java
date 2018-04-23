@@ -1,7 +1,7 @@
 package com.example.jiheon.schooltest;
 
-import com.example.jiheon.schooltest.Activity.MainActivity;
-import com.example.jiheon.schooltest.Model.DateTime;
+import com.example.jiheon.schooltest.activity.MainActivity;
+import com.example.jiheon.schooltest.model.DateTime;
 import com.example.jiheon.schooltest.type.MealType;
 
 import java.util.Calendar;
