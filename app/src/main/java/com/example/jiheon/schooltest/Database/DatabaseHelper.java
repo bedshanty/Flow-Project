@@ -51,6 +51,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }).run();
     }
 
+    public void insertOut(String startTime, String endTime, int outType) {
+        new Thread(() -> {
+            final SQLiteDatabase db = this.getWritableDatabase();
+
+            String sql = "INSERT OR REPLACE INTO out(start_time, end_time, type) VALUES('";
+            sql += startTime + "', '";
+            sql += endTime + "', '";
+            sql += outType + "')";
+
+            db.execSQL(sql);
+        }).run();
+    }
+
     public String getToken() {
         final SQLiteDatabase db = this.getWritableDatabase();
         final Cursor res = db.rawQuery(

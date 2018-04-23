@@ -1,12 +1,11 @@
 package com.example.jiheon.schooltest.Network.AsyncTasks;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
 
 import com.example.jiheon.schooltest.Activity.MainActivity;
-import com.example.jiheon.schooltest.Activity.MealActivity;
 import com.example.jiheon.schooltest.Database.DatabaseHelper;
+import com.example.jiheon.schooltest.type.MealType;
 import com.example.jiheon.schooltest.Utils;
 
 import org.hyunjun.school.School;
@@ -42,6 +41,8 @@ public class MealParser extends AsyncTask<Object, Void, String> {
         int year = (int) params[1];
         int month = (int) params[2];
         int day = (int) params[3];
+
+        @MealType.Meal
         int type = (int) params[4];
 
         String menu = null;
@@ -59,32 +60,32 @@ public class MealParser extends AsyncTask<Object, Void, String> {
 
             int tempDay = 1;
             for(SchoolMenu tempMenu : smList) {
-                myDb.insertMeal(tempMenu.breakfast, year, month, tempDay, Utils.BREAKFAST);
-                myDb.insertMeal(tempMenu.lunch, year, month, tempDay, Utils.LUNCH);
-                myDb.insertMeal(tempMenu.dinner, year, month, tempDay, Utils.DINNER);
+                myDb.insertMeal(tempMenu.breakfast, year, month, tempDay, MealType.BREAKFAST);
+                myDb.insertMeal(tempMenu.lunch, year, month, tempDay, MealType.LUNCH);
+                myDb.insertMeal(tempMenu.dinner, year, month, tempDay, MealType.DINNER);
 
                 tempDay++;
             }
 
             // API 의 DAY 가 0 부터 시작하므로 DAY - 1
             // NEXT_BREAKFAST 인 경우 다음 날 아침을 가져와야 한다
-            if(type == Utils.NEXT_BREAKFAST)
+            if(type == MealType.NEXT_BREAKFAST)
                 sm = Utils.mealMap.get(new Pair(year, month)).get(day);
             else
                 sm = Utils.mealMap.get(new Pair(year, month)).get(day - 1);
 
             // params[3], Utils 에 따라 적절한 메뉴를 받아온다
             switch(type) {
-                case Utils.BREAKFAST:
-                case Utils.NEXT_BREAKFAST:
+                case MealType.BREAKFAST:
+                case MealType.NEXT_BREAKFAST:
                     menu = sm.breakfast;
                     break;
 
-                case Utils.LUNCH:
+                case MealType.LUNCH:
                     menu = sm.lunch;
                     break;
 
-                case Utils.DINNER:
+                case MealType.DINNER:
                     menu = sm.dinner;
                     break;
             }

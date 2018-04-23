@@ -2,6 +2,7 @@ package com.example.jiheon.schooltest;
 
 import com.example.jiheon.schooltest.Activity.MainActivity;
 import com.example.jiheon.schooltest.Model.DateTime;
+import com.example.jiheon.schooltest.type.MealType;
 
 import java.util.Calendar;
 
@@ -14,6 +15,7 @@ public class DateTimeHelper {
     // 년, 월, 일 식사종류
     private DateTime dateTime;
 
+    @MealType.Meal
     private int mealType;
 
     // 현재 시간을 기준으로 하는 급식 파싱에 사용되는 생성자
@@ -48,18 +50,19 @@ public class DateTimeHelper {
 
         // 사용자 학교의 아침, 점심, 저녁 시간에 따라 가져와야할 Utils 결정
         if(sum < MainActivity.BREAKFAST_TIME)
-            this.mealType = Utils.BREAKFAST;
+            this.mealType = MealType.BREAKFAST;
 
         else if(sum < MainActivity.LUNCH_TIME)
-            this.mealType = Utils.LUNCH;
+            this.mealType = MealType.LUNCH;
 
         else if(sum < MainActivity.DINNER_TIME)
-            this.mealType = Utils.DINNER;
+            this.mealType = MealType.DINNER;
 
         else
-            this.mealType = Utils.NEXT_BREAKFAST;
+            this.mealType = MealType.NEXT_BREAKFAST;
     }
 
+    @MealType.Meal
     public int getMealType() { return mealType; }
 
     public DateTime getDateTime() { return dateTime; }

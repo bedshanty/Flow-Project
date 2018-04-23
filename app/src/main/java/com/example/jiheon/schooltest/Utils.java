@@ -3,7 +3,6 @@ package com.example.jiheon.schooltest;
 import android.annotation.SuppressLint;
 import android.util.Pair;
 
-import com.example.jiheon.schooltest.Database.DatabaseHelper;
 import com.example.jiheon.schooltest.Model.DateTime;
 
 import org.hyunjun.school.SchoolMenu;
@@ -21,7 +20,7 @@ import java.util.List;
 
 public class Utils {
     public static final String HOST = "http://flow.cafe24app.com/";
-    public static final int BREAKFAST = 1, LUNCH = 2, DINNER = 3, NEXT_BREAKFAST = 4;
+    //public static final int BREAKFAST = 1, LUNCH = 2, DINNER = 3, NEXT_BREAKFAST = 4;
     public static final HashMap<Pair<Integer, Integer>, List<SchoolMenu>> mealMap = new HashMap<>();
 
     public static String urlEncoder(String text) {

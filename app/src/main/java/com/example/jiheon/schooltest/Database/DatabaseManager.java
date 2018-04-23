@@ -2,14 +2,14 @@ package com.example.jiheon.schooltest.Database;
 
 public class DatabaseManager {
 
-    private final String createTableToken =
+    private final String CREATE_TABLE_TOKEN =
             "CREATE TABLE token (" +
                     "idx INTEGER UNIQUE," +
                     "token STRING," +
                     "PRIMARY KEY('idx')" +
                     ")";
 
-    private final String createTableMeal =
+    private final String CREATE_TABLE_MEAL =
             "CREATE TABLE meal (" +
                     "idx INTEGER," +
                     "year INTEGER," +
@@ -20,11 +20,22 @@ public class DatabaseManager {
                     "PRIMARY KEY(idx)" +
                     ")";
 
+    private final String CREATE_TABLE_OUT =
+            "CREATE TABLE out (" +
+                    "idx INTEGER," +
+                    "start_time DATETIME," +
+                    "end_time DATETIME," +
+                    "type INTEGER," +
+                    "PRIMARY KEY(idx)" +
+                    ")";
+
     public String getCreateTableToken() {
-        return createTableToken;
+        return CREATE_TABLE_TOKEN;
     }
 
     public String getCreateTableMeal() {
-        return createTableMeal;
+        return CREATE_TABLE_MEAL;
     }
+
+    public String getCreateTableOut() { return CREATE_TABLE_OUT; }
 }

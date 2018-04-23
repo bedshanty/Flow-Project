@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Flow-Project.iml" filepath="$PROJECT_DIR$/Flow-Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/SchoolMealAPI/SchoolMealAPI.iml" filepath="$PROJECT_DIR$/SchoolMealAPI/SchoolMealAPI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SchoolTest.iml" filepath="$PROJECT_DIR$/SchoolTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jsoup-1.11.2/jsoup-1.11.2.iml" filepath="$PROJECT_DIR$/jsoup-1.11.2/jsoup-1.11.2.iml" />
     </modules>

@@ -1,19 +1,18 @@
 package com.example.jiheon.schooltest.Activity;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.jiheon.schooltest.Database.DatabaseHelper;
 import com.example.jiheon.schooltest.DateTimeHelper;
+import com.example.jiheon.schooltest.type.MealType;
 import com.example.jiheon.schooltest.Model.DateTime;
 import com.example.jiheon.schooltest.Network.AsyncTasks.MealParser;
 import com.example.jiheon.schooltest.R;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements MealParser.MealRe
             mealParser.delegate = MainActivity.this;
 
             // MealParser AsyncTask 로 급식 정보를 받아 menu 에 저장
-            mealParser.execute(myDb, year, month, day, dateTimeHelper.getMealType());
+            mealParser.execute(myDb, year, month + 1, day, dateTimeHelper.getMealType());
         }
     };
 
@@ -84,19 +83,19 @@ public class MainActivity extends AppCompatActivity implements MealParser.MealRe
             String meal = "";
 
             switch(type) {
-                case Utils.BREAKFAST:
+                case MealType.BREAKFAST:
                     meal = Utils.mealMap.get(new Pair(year, month)).get(day - 1).breakfast;
                     break;
 
-                case Utils.LUNCH:
+                case MealType.LUNCH:
                     meal = Utils.mealMap.get(new Pair(year, month)).get(day - 1).lunch;
                     break;
 
-                case Utils.DINNER:
+                case MealType.DINNER:
                     meal = Utils.mealMap.get(new Pair(year, month)).get(day - 1).dinner;
                     break;
 
-                case Utils.NEXT_BREAKFAST:
+                case MealType.NEXT_BREAKFAST:
                     meal = Utils.mealMap.get(new Pair(year, month)).get(day).breakfast;
                     break;
             }

@@ -20,8 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="28dp"
                 android:text="시작 시간"
-                android:textSize="18sp"
-                tools:layout_editor_absoluteY="-3dp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
