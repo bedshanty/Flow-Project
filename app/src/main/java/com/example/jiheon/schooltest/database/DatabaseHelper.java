@@ -19,14 +19,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(dbManager.getCreateTableToken());
         db.execSQL(dbManager.getCreateTableMeal());
-        db.execSQL(dbManager.getCreateTableOut());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer) {
         db.execSQL("DROP TABLE IF EXISTS " + "token");
         db.execSQL("DROP TABLE IF EXISTS " + "meal");
-        db.execSQL("DROP TABLE IF EXISTS " + "out");
     }
 
     public void insertToken(String token) {
@@ -54,14 +52,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void insertOut(String startTime, String endTime, int outType) {
-        final SQLiteDatabase db = this.getWritableDatabase();
+        new Thread(() -> {
+            final SQLiteDatabase db = this.getWritableDatabase();
 
-        String sql = "INSERT OR REPLACE INTO out(start_time, end_time, type) VALUES('";
-        sql += startTime + "', '";
-        sql += endTime + "', '";
-        sql += outType + "')";
+            String sql = "INSERT OR REPLACE INTO out(start_time, end_time, type) VALUES('";
+            sql += startTime + "', '";
+            sql += endTime + "', '";
+            sql += outType + "')";
 
-        db.execSQL(sql);
+            db.execSQL(sql);
+        }).run();
     }
 
     public String getToken() {
