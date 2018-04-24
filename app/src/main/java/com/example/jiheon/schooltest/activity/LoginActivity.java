@@ -3,7 +3,9 @@ package com.example.jiheon.schooltest.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -60,13 +62,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private final String EMAIL_REGEX = "^[a-zA-Z0-9]+@dgsw\\.hs\\.kr$";
     private final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
 
+    private final Pattern mEmailPattern = Pattern.compile(EMAIL_REGEX);
+    private final Pattern mPasswordPattern = Pattern.compile(PASSWORD_REGEX);
+
+    private final String PREF_NAME  = "login";
+    private final String PREF_ID    = "id";
+    private final String PREF_PW    = "pw";
+
+    private SharedPreferences pref;
+
     private NetworkService mService;
-    private Call<Response> mRequest;
 
     private DatabaseHelper mDatabase;
-
-    private Pattern mEmailPattern = Pattern.compile(EMAIL_REGEX);
-    private Pattern mPasswordPattern = Pattern.compile(PASSWORD_REGEX);
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -92,6 +99,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         ButterKnife.bind(this);
 
         mDatabase = new DatabaseHelper(this);
+        pref = this.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
         // Retrofit initialization
         mService = new RetrofitBuilder().getService();
@@ -101,7 +109,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        mEmailView.setText(pref.getString(PREF_ID, ""));
+        mPasswordView.setText(pref.getString(PREF_PW, ""));
     }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -184,11 +196,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            final SharedPreferences.Editor editor = pref.edit();
+            editor.putString(PREF_ID, email);
+            editor.putString(PREF_PW, password);
+            editor.apply();
+
             showProgress(true);
 
             password = Utils.encryptSHA512(password);
 
-            mRequest = mService.login(new Request(email, password));
+            Call<Response> mRequest = mService.login(new Request(email, password));
             mRequest.enqueue(new Callback<Response>() {
                 @Override
                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
@@ -340,6 +357,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onRegisterClick(View view) {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    public String getPreference(String key) {
+        try {
+            return pref.getString(key, "");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public void savePreference(String[] keys, String[] values, Context context) {
+        final SharedPreferences pref = this.getSharedPreferences("login", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        for (int i = 0; i < keys.length; i++)
+            editor.putString(keys[i], values[i]);
+        editor.apply();
     }
 }
 
