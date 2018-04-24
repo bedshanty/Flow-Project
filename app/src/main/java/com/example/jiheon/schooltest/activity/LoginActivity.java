@@ -3,23 +3,21 @@ package com.example.jiheon.schooltest.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,18 +29,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.example.jiheon.schooltest.R;
+import com.example.jiheon.schooltest.RetrofitBuilder;
+import com.example.jiheon.schooltest.Utils;
 import com.example.jiheon.schooltest.database.DatabaseHelper;
 import com.example.jiheon.schooltest.network.NetworkService;
 import com.example.jiheon.schooltest.network.jsonTypes.Login.Request.Request;
 import com.example.jiheon.schooltest.network.jsonTypes.Login.Response.Response;
-import com.example.jiheon.schooltest.R;
-import com.example.jiheon.schooltest.RetrofitBuilder;
-import com.example.jiheon.schooltest.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,26 +48,24 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-    private final String EMAIL_REGEX = "^[a-zA-Z0-9]+@dgsw\\.hs\\.kr$";
-    private final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
 
-    private final Pattern mEmailPattern = Pattern.compile(EMAIL_REGEX);
-    private final Pattern mPasswordPattern = Pattern.compile(PASSWORD_REGEX);
+    // Email, Password 정규식
+    private final String EMAIL_REGEX =      "^[a-zA-Z0-9]+@dgsw\\.hs\\.kr$";
+    private final String PASSWORD_REGEX =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
 
-    private final String PREF_NAME  = "login";
-    private final String PREF_ID    = "id";
-    private final String PREF_PW    = "pw";
+    private final Pattern mEmailPattern =       Pattern.compile(EMAIL_REGEX);
+    private final Pattern mPasswordPattern =    Pattern.compile(PASSWORD_REGEX);
 
-    private SharedPreferences pref;
+    // Email, Password 자동 완성을 위한 SharePreferences 인자 명
+    private final String PREF_NAME =    "login";
+    private final String PREF_ID =      "id";
+    private final String PREF_PW =      "pw";
+
+    private SharedPreferences mPref;
 
     private NetworkService mService;
 
@@ -99,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         ButterKnife.bind(this);
 
         mDatabase = new DatabaseHelper(this);
-        pref = this.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        mPref = this.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
         // Retrofit initialization
         mService = new RetrofitBuilder().getService();
@@ -110,8 +106,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        mEmailView.setText(pref.getString(PREF_ID, ""));
-        mPasswordView.setText(pref.getString(PREF_PW, ""));
+        mEmailView.setText(mPref.getString(PREF_ID, ""));
+        mPasswordView.setText(mPref.getString(PREF_PW, ""));
     }
 
 
@@ -137,6 +133,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
         }
+
         return false;
     }
 
@@ -196,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            final SharedPreferences.Editor editor = pref.edit();
+            final SharedPreferences.Editor editor = mPref.edit();
             editor.putString(PREF_ID, email);
             editor.putString(PREF_PW, password);
             editor.apply();
@@ -357,22 +354,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onRegisterClick(View view) {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
-    }
-
-    public String getPreference(String key) {
-        try {
-            return pref.getString(key, "");
-        } catch (Exception e) {
-            return "";
-        }
-    }
-
-    public void savePreference(String[] keys, String[] values, Context context) {
-        final SharedPreferences pref = this.getSharedPreferences("login", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = pref.edit();
-        for (int i = 0; i < keys.length; i++)
-            editor.putString(keys[i], values[i]);
-        editor.apply();
     }
 }
 
