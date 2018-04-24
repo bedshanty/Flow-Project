@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".activity.OutActivity">
+    tools:context=".activity.LeaveActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/out_spinner_layout"

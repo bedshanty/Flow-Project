@@ -20,11 +20,12 @@ public class DatabaseManager {
                     "PRIMARY KEY(idx)" +
                     ")";
 
-    private final String CREATE_TABLE_OUT =
-            "CREATE TABLE out (" +
+    private final String CREATE_TABLE_LEAVE =
+            "CREATE TABLE leave (" +
                     "idx INTEGER," +
                     "start_time DATETIME," +
                     "end_time DATETIME," +
+                    "reason TEXT," +
                     "type INTEGER," +
                     "PRIMARY KEY(idx)" +
                     ")";
@@ -37,5 +38,5 @@ public class DatabaseManager {
         return CREATE_TABLE_MEAL;
     }
 
-    public String getCreateTableOut() { return CREATE_TABLE_OUT; }
+    public String getCreateTableLeave() { return CREATE_TABLE_LEAVE; }
 }

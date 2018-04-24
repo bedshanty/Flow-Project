@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,10 +22,12 @@ import android.widget.Toast;
 
 import com.example.jiheon.schooltest.database.DatabaseHelper;
 import com.example.jiheon.schooltest.model.DateTime;
+import com.example.jiheon.schooltest.model.Leave;
 import com.example.jiheon.schooltest.network.NetworkService;
 import com.example.jiheon.schooltest.R;
 import com.example.jiheon.schooltest.RetrofitBuilder;
 import com.example.jiheon.schooltest.Utils;
+import com.example.jiheon.schooltest.type.LeaveType;
 
 import java.util.ArrayList;
 
@@ -35,7 +38,7 @@ import butterknife.OnTouch;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class OutActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener,
+public class LeaveActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
     @BindView(R.id.out_start_date_spinner)  Spinner mStartDateSpinner;
@@ -70,11 +73,19 @@ public class OutActivity extends FragmentActivity implements DatePickerDialog.On
         ButterKnife.bind(this);
 
         mRadioButton1.setChecked(true);
-        
+
         mStartDateSpinner.setOnKeyListener(onKeyStartDateListener);
         mStartTimeSpinner.setOnKeyListener(onKeyStartTimeListener);
+        mStartDateSpinner.setOnKeyListener(onKeyEndDateListener);
+        mStartTimeSpinner.setOnKeyListener(onKeyEndTimeListener);
 
         mService = new RetrofitBuilder().getService();
+
+        ArrayList<Leave> leaveList = mDatabase.getAllLeave();
+
+        for(Leave leave : leaveList) {
+            Log.e("Leave", leave.getReason());
+        }
     }
 
     @OnTouch(R.id.out_start_date_spinner)
@@ -169,12 +180,14 @@ public class OutActivity extends FragmentActivity implements DatePickerDialog.On
         } else if(TextUtils.isEmpty(mOutReason.getText().toString())) {
             Toast.makeText(this, "사유를 입력해주세요.", Toast.LENGTH_SHORT).show();
         } else {
-            String startDate = Utils.dateFormatConverter(mStartTime);
-            String endDate = Utils.dateFormatConverter(mEndTime);
+            final String startDate = Utils.dateFormatConverter(mStartTime);
+            final String endDate = Utils.dateFormatConverter(mEndTime);
 
-            int selectedGender = mRadioGroup.getCheckedRadioButtonId();
-            RadioButton radioButton = findViewById(selectedGender);
-            int type = mRadioGroup.indexOfChild(radioButton);
+            final int selectedGender = mRadioGroup.getCheckedRadioButtonId();
+            final RadioButton radioButton = findViewById(selectedGender);
+            final int type = mRadioGroup.indexOfChild(radioButton);
+
+            final String reason = mOutReason.getText().toString();
 
             if(type == 0) {
                 mOutRequest = mService.out(mDatabase.getToken(),
@@ -185,44 +198,46 @@ public class OutActivity extends FragmentActivity implements DatePickerDialog.On
                     @Override
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
-                            Toast.makeText(OutActivity.this, "성공적으로 신청되었습니다.",
+                            mDatabase.insertLeave(new Leave(startDate, endDate, reason, LeaveType.OUT));
+                            Toast.makeText(LeaveActivity.this, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 
                             finish();
                         } else {
-                            Toast.makeText(OutActivity.this, response.body().getMessage(),
+                            Toast.makeText(LeaveActivity.this, response.body().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> call, Throwable t) {
-                        Toast.makeText(OutActivity.this, R.string.error_server_error,
+                        Toast.makeText(LeaveActivity.this, R.string.error_server_error,
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
                 mSleepRequest = mService.sleep(mDatabase.getToken(),
                         new com.example.jiheon.schooltest.network.jsonTypes.Sleep.Request.Request(
-                                startDate, endDate, mOutReason.getText().toString()));
+                                startDate, endDate, reason));
 
                 mSleepRequest.enqueue(new Callback<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response>() {
                     @Override
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
-                            Toast.makeText(OutActivity.this, "성공적으로 신청되었습니다.",
+                            mDatabase.insertLeave(new Leave(startDate, endDate, reason, LeaveType.SLEEP));
+                            Toast.makeText(LeaveActivity.this, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 
                             finish();
                         } else {
-                            Toast.makeText(OutActivity.this, response.body().getMessage(),
+                            Toast.makeText(LeaveActivity.this, response.body().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> call, Throwable t) {
-                        Toast.makeText(OutActivity.this, R.string.error_server_error,
+                        Toast.makeText(LeaveActivity.this, R.string.error_server_error,
                                 Toast.LENGTH_SHORT).show();
                     }
                 });

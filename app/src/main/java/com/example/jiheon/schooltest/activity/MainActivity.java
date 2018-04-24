@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MealParser.MealRe
 
     @OnClick(R.id.outBtn)
     public void outBtnClicked(View view) {
-        Intent intent = new Intent(MainActivity.this, OutActivity.class);
+        Intent intent = new Intent(MainActivity.this, LeaveActivity.class);
         startActivity(intent);
     }
 

@@ -20,7 +20,7 @@ public class TimePickerFragment extends DialogFragment {
         final DateTimeHelper dateTimeHelper = new DateTimeHelper();
         final DateTime dateTime = dateTimeHelper.getDateTime();
 
-        return new TimePickerDialog(getActivity(), (OutActivity)getActivity(),
+        return new TimePickerDialog(getActivity(), (LeaveActivity)getActivity(),
                 dateTime.getHour(), dateTime.getMin(), true);
     }
 }

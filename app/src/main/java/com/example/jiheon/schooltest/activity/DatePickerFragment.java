@@ -21,7 +21,7 @@ public class DatePickerFragment extends DialogFragment {
         final DateTimeHelper dateTimeHelper = new DateTimeHelper();
         final DateTime dateTime = dateTimeHelper.getDateTime();
 
-        return new DatePickerDialog(getActivity(), (OutActivity)getActivity(),
+        return new DatePickerDialog(getActivity(), (LeaveActivity)getActivity(),
                 dateTime.getYear(), dateTime.getMonth(), dateTime.getDay());
     }
 }
