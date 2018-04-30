@@ -20,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.jiheon.schooltest.database.DatabaseHelper;
+import com.example.jiheon.schooltest.database.DatabaseManager;
 import com.example.jiheon.schooltest.model.DateTime;
 import com.example.jiheon.schooltest.model.Leave;
 import com.example.jiheon.schooltest.network.NetworkService;
@@ -54,8 +54,6 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
 
     @BindView(R.id.out_submit_btn)  Button mSubmit;
 
-    private final DatabaseHelper mDatabase = new DatabaseHelper(this);
-
     private boolean mStart;
     
     private DateTime mStartTime = new DateTime();
@@ -81,7 +79,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
 
         mService = new RetrofitBuilder().getService();
 
-        ArrayList<Leave> leaveList = mDatabase.getAllLeave();
+        ArrayList<Leave> leaveList = DatabaseManager.selectAllLeave();
 
         for(Leave leave : leaveList) {
             Log.e("Leave", leave.getReason());
@@ -190,7 +188,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
             final String reason = mOutReason.getText().toString();
 
             if(type == 0) {
-                mOutRequest = mService.out(mDatabase.getToken(),
+                mOutRequest = mService.out(DatabaseManager.selectToken(),
                         new com.example.jiheon.schooltest.network.jsonTypes.Out.Request.Request(
                                 startDate, endDate, mOutReason.getText().toString()));
 
@@ -198,7 +196,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
                     @Override
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
-                            mDatabase.insertLeave(new Leave(startDate, endDate, reason, LeaveType.OUT));
+                            DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.OUT));
                             Toast.makeText(LeaveActivity.this, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 
@@ -216,7 +214,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
                     }
                 });
             } else {
-                mSleepRequest = mService.sleep(mDatabase.getToken(),
+                mSleepRequest = mService.sleep(DatabaseManager.selectToken(),
                         new com.example.jiheon.schooltest.network.jsonTypes.Sleep.Request.Request(
                                 startDate, endDate, reason));
 
@@ -224,7 +222,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
                     @Override
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
-                            mDatabase.insertLeave(new Leave(startDate, endDate, reason, LeaveType.SLEEP));
+                            DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.SLEEP));
                             Toast.makeText(LeaveActivity.this, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 

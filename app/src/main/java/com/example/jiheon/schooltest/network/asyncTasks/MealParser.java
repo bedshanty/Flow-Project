@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.util.Pair;
 
 import com.example.jiheon.schooltest.activity.MainActivity;
-import com.example.jiheon.schooltest.database.DatabaseHelper;
 import com.example.jiheon.schooltest.type.MealType;
 import com.example.jiheon.schooltest.Utils;
 
@@ -13,6 +12,8 @@ import org.hyunjun.school.SchoolException;
 import org.hyunjun.school.SchoolMenu;
 
 import java.util.List;
+
+import static com.example.jiheon.schooltest.database.DatabaseManager.insertMeal;
 
 /**
  * Created by JiHeon on 2018-03-20.
@@ -30,20 +31,18 @@ public class MealParser extends AsyncTask<Object, Void, String> {
     /**
      * 파라미터로 받은 날짜 정보를 통해 해당 급식을 받아온다.
      *
-     * @param params 데이터베이스, 연, 월, 일, 급식 종류
+     * @param params 연, 월, 일, 급식 종류
      * @return 해당 급식 문자열
      */
 
     @Override
     protected String doInBackground(Object... params) {
-        DatabaseHelper myDb = (DatabaseHelper) params[0];
-
-        int year = (int) params[1];
-        int month = (int) params[2];
-        int day = (int) params[3];
+        int year = (int) params[0];
+        int month = (int) params[1];
+        int day = (int) params[2];
 
         @MealType.Meal
-        int type = (int) params[4];
+        int type = (int) params[3];
 
         String menu = null;
 
@@ -60,9 +59,9 @@ public class MealParser extends AsyncTask<Object, Void, String> {
 
             int tempDay = 1;
             for(SchoolMenu tempMenu : smList) {
-                myDb.insertMeal(tempMenu.breakfast, year, month, tempDay, MealType.BREAKFAST);
-                myDb.insertMeal(tempMenu.lunch, year, month, tempDay, MealType.LUNCH);
-                myDb.insertMeal(tempMenu.dinner, year, month, tempDay, MealType.DINNER);
+                insertMeal(tempMenu.breakfast, year, month, tempDay, MealType.BREAKFAST);
+                insertMeal(tempMenu.lunch, year, month, tempDay, MealType.LUNCH);
+                insertMeal(tempMenu.dinner, year, month, tempDay, MealType.DINNER);
 
                 tempDay++;
             }

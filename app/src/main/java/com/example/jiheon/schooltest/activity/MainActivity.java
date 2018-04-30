@@ -10,7 +10,6 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.jiheon.schooltest.database.DatabaseHelper;
 import com.example.jiheon.schooltest.DateTimeHelper;
 import com.example.jiheon.schooltest.type.MealType;
 import com.example.jiheon.schooltest.model.DateTime;
@@ -28,8 +27,6 @@ public class MainActivity extends AppCompatActivity implements MealParser.MealRe
     MealParser mealParser;
 
     @BindView(R.id.timePicker)      TimePicker mTimePicker;
-
-    DatabaseHelper myDb = new DatabaseHelper(this);
 
     // 사용자 학교의 정보
 
@@ -60,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements MealParser.MealRe
             mealParser.delegate = MainActivity.this;
 
             // MealParser AsyncTask 로 급식 정보를 받아 menu 에 저장
-            mealParser.execute(myDb, year, month + 1, day, dateTimeHelper.getMealType());
+            mealParser.execute(year, month + 1, day, dateTimeHelper.getMealType());
         }
     };
 
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements MealParser.MealRe
             startActivity(intent);
         } else {
             // MealParser AsyncTask 로 급식 정보를 받아 menu 에 저장
-            mealParser.execute(myDb, year, month, day, type);
+            mealParser.execute(year, month, day, type);
         }
     }
 

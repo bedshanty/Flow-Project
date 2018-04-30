@@ -32,7 +32,7 @@ import android.widget.Toast;
 import com.example.jiheon.schooltest.R;
 import com.example.jiheon.schooltest.RetrofitBuilder;
 import com.example.jiheon.schooltest.Utils;
-import com.example.jiheon.schooltest.database.DatabaseHelper;
+import com.example.jiheon.schooltest.database.DatabaseManager;
 import com.example.jiheon.schooltest.network.NetworkService;
 import com.example.jiheon.schooltest.network.jsonTypes.Login.Request.Request;
 import com.example.jiheon.schooltest.network.jsonTypes.Login.Response.Response;
@@ -69,8 +69,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private NetworkService mService;
 
-    private DatabaseHelper mDatabase;
-
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -97,7 +95,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        mDatabase = new DatabaseHelper(this);
         mPref = this.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
         // Retrofit initialization
@@ -209,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     showProgress(false);
 
                     if (response.body().getStatus() == 200) {
-                        mDatabase.insertToken(response.body().getData().getToken());
+                        DatabaseManager.insertToken(response.body().getData().getToken());
                         Toast.makeText(LoginActivity.this, "로그인에 성공하였습니다.",
                                 Toast.LENGTH_SHORT).show();
 
