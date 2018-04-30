@@ -54,16 +54,16 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     // Email, Password 정규식
-    private final String EMAIL_REGEX =      "^[a-zA-Z0-9]+@dgsw\\.hs\\.kr$";
-    private final String PASSWORD_REGEX =   "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
+    private final String EMAIL_REGEX = "^[a-zA-Z0-9]+@dgsw\\.hs\\.kr$";
+    private final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
 
-    private final Pattern mEmailPattern =       Pattern.compile(EMAIL_REGEX);
-    private final Pattern mPasswordPattern =    Pattern.compile(PASSWORD_REGEX);
+    private final Pattern mEmailPattern = Pattern.compile(EMAIL_REGEX);
+    private final Pattern mPasswordPattern = Pattern.compile(PASSWORD_REGEX);
 
     // Email, Password 자동 완성을 위한 SharePreferences 인자 명
-    private final String PREF_NAME =    "login";
-    private final String PREF_ID =      "id";
-    private final String PREF_PW =      "pw";
+    private final String PREF_NAME = "login";
+    private final String PREF_ID = "id";
+    private final String PREF_PW = "pw";
 
     private SharedPreferences mPref;
 
@@ -81,12 +81,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
 
     // UI references.
-    @BindView(R.id.login_email)       AutoCompleteTextView mEmailView;
-    @BindView(R.id.login_password)    EditText mPasswordView;
-    @BindView(R.id.login_progress)  View mProgressView;
-    @BindView(R.id.login_form)  View mLoginFormView;
+    @BindView(R.id.login_email)
+    AutoCompleteTextView mEmailView;
+    @BindView(R.id.login_password)
+    EditText mPasswordView;
+    @BindView(R.id.login_progress)
+    View mProgressView;
 
-    @BindView(R.id.login_email_sign_in_button)    Button mEmailSignInButton;
+    @BindView(R.id.login_email_sign_in_button)
+    Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +105,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Set up the login form.
         populateAutoComplete();
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
 
         mEmailView.setText(mPref.getString(PREF_ID, ""));
         mPasswordView.setText(mPref.getString(PREF_PW, ""));
@@ -251,35 +251,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     @Override
