@@ -1,29 +1,32 @@
 package com.example.jiheon.schooltest.database.table;
 
 import com.example.jiheon.schooltest.type.LeaveType;
+import com.orm.dsl.Column;
 import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 @Table
 public class LeaveTable {
-    private String startDate;
-    private String endDate;
+    @Column(name = "start_time")
+    private String startTime;
+    @Column(name = "end_time")
+    private String endTime;
     private String reason;
     @LeaveType.Leave
     private int type;
 
     public LeaveTable() { }
 
-    public LeaveTable(String startDate, String endDate, String reason, @LeaveType.Leave int type) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public LeaveTable(String startTime, String endTime, String reason, @LeaveType.Leave int type) {
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.reason = reason;
         this.type = type;
     }
 
-    public String getStartDate() { return startDate; }
+    public String getStartTime() { return startTime; }
 
-    public String getEndDate() { return endDate; }
+    public String getEndTime() { return endTime; }
 
     public String getReason() { return reason; }
 

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -24,6 +25,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -78,17 +80,18 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      */
 
     // UI references.
-    @BindView(R.id.register_email)   AutoCompleteTextView mEmailView;
-    @BindView(R.id.register_name)    EditText mNameView;
-    @BindView(R.id.register_mobile)  EditText mMobileView;
+    @BindView(R.id.register_root)   LinearLayout mRegisterRoot;
+    @BindView(R.id.register_email)  AutoCompleteTextView mEmailView;
+    @BindView(R.id.register_name)   EditText mNameView;
+    @BindView(R.id.register_mobile) EditText mMobileView;
     @BindView(R.id.register_password)   EditText mPasswordView;
     @BindView(R.id.register_passwordConfirm)    EditText mPasswordConfirmView;
     @BindView(R.id.register_genderGroup)    RadioGroup mGenderGroup;
     @BindView(R.id.register_genderMale) RadioButton mGenderMale;
-    @BindView(R.id.register_classIdxSpinner) Spinner mClassIdxSpinner;
-    @BindView(R.id.register_classNumberSpinner)  Spinner mClassNumberSpinner;
-    @BindView(R.id.register_progress)  View mProgressView;
-    @BindView(R.id.register_form)  View mRegisterFormView;
+    @BindView(R.id.register_classIdxSpinner)    Spinner mClassIdxSpinner;
+    @BindView(R.id.register_classNumberSpinner)     Spinner mClassNumberSpinner;
+    @BindView(R.id.register_progress)   View mProgressView;
+    @BindView(R.id.register_form)   View mRegisterFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,12 +232,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                     showProgress(false);
 
                     if(response.body().getStatus() == 200) {
-                        Toast.makeText(RegisterActivity.this, response.body().getMessage(),
+                        Snackbar.make(mRegisterRoot, response.body().getMessage(),
                                 Toast.LENGTH_SHORT).show();
 
                         finish();
                     } else {
-                        Toast.makeText(RegisterActivity.this, response.body().getMessage(),
+                        Snackbar.make(mRegisterRoot, response.body().getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -243,7 +246,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 public void onFailure(Call<Response> call, Throwable t) {
                     showProgress(false);
 
-                    Toast.makeText(RegisterActivity.this, R.string.error_server_error,
+                    Snackbar.make(mRegisterRoot, R.string.error_server_error,
                             Toast.LENGTH_SHORT).show();
                 }
             });
@@ -349,7 +352,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
     @OnClick(R.id.register_email_sign_in_button)

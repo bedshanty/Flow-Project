@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -79,6 +80,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
 
     // UI references.
+    @BindView(R.id.login_root)
+    ConstraintLayout mLoginRoot;
     @BindView(R.id.login_email)
     AutoCompleteTextView mEmailView;
     @BindView(R.id.login_password)
@@ -207,14 +210,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     if (response.body().getStatus() == 200) {
                         DatabaseManager.insertToken(response.body().getData().getToken());
-                        Toast.makeText(LoginActivity.this, "로그인에 성공하였습니다.",
-                                Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, response.body().getMessage(),
+                        Snackbar.make(mLoginRoot, response.body().getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -223,7 +224,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onFailure(Call<Response> call, Throwable t) {
                     showProgress(false);
 
-                    Toast.makeText(LoginActivity.this, R.string.error_server_error,
+                    Snackbar.make(mLoginRoot, R.string.error_server_error,
                             Toast.LENGTH_SHORT).show();
                 }
             });

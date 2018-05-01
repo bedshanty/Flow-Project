@@ -2,11 +2,13 @@ package com.example.jiheon.schooltest.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -26,7 +28,8 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements MealParser.MealResponse {
     MealParser mealParser;
 
-    @BindView(R.id.timePicker)      TimePicker mTimePicker;
+    @BindView(R.id.main_root)   RelativeLayout mMainRoot;
+    @BindView(R.id.timePicker)  TimePicker mTimePicker;
 
     // 사용자 학교의 정보
 
@@ -126,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements MealParser.MealRe
     public void processFinish(String menu) {
         // menu 가 null 인 경우 프로그램의 에러
         if(menu == null) {
-            Toast.makeText(MainActivity.this, "메뉴를 받아올 수 없습니다.", Toast.LENGTH_SHORT).show();
+            Snackbar.make(mMainRoot, "메뉴를 받아올 수 없습니다.", Toast.LENGTH_SHORT).show();
         } else {
             // Intent 를 생성하여 MealActivity 로 메뉴 정보를 전송한다.
             Intent intent = new Intent(MainActivity.this, MealActivity.class);

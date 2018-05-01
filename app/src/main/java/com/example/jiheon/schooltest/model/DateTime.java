@@ -9,7 +9,9 @@ public class DateTime {
     private int hour;
     private int min;
 
-    public DateTime() {}
+    public DateTime() {
+        year = month = day = hour = min = -1;
+    }
 
     public DateTime(int year, int month, int day, int hour, int min) {
         this.year = year;

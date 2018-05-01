@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -41,6 +43,7 @@ import retrofit2.Callback;
 public class LeaveActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
+    @BindView(R.id.leave_root) ConstraintLayout mLeaveRoot;
     @BindView(R.id.out_start_date_spinner)  Spinner mStartDateSpinner;
     @BindView(R.id.out_start_time_spinner)  Spinner mStartTimeSpinner;
     @BindView(R.id.out_end_date_spinner)    Spinner mEndDateSpinner;
@@ -66,7 +69,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_out);
+        setContentView(R.layout.activity_leave);
 
         ButterKnife.bind(this);
 
@@ -172,11 +175,11 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
 
     @OnClick(R.id.out_submit_btn)
     public void onClickSubmit(View v) {
-        if(mStartTime.getYear() == 0 || mStartTime.getHour() == 0 ||
-                mEndTime.getYear() == 0 || mEndTime.getHour() == 0) {
-            Toast.makeText(this, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
+        if(mStartTime.getYear() < 0 || mStartTime.getHour() < 0 ||
+                mEndTime.getYear() < 0 || mEndTime.getHour() < 0) {
+            Snackbar.make(mLeaveRoot, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
         } else if(TextUtils.isEmpty(mOutReason.getText().toString())) {
-            Toast.makeText(this, "사유를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            Snackbar.make(mLeaveRoot, "사유를 입력해주세요.", Toast.LENGTH_SHORT).show();
         } else {
             final String startDate = Utils.dateFormatConverter(mStartTime);
             final String endDate = Utils.dateFormatConverter(mEndTime);
@@ -197,19 +200,19 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
                             DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.OUT));
-                            Toast.makeText(LeaveActivity.this, "성공적으로 신청되었습니다.",
+                            Snackbar.make(mLeaveRoot, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 
                             finish();
                         } else {
-                            Toast.makeText(LeaveActivity.this, response.body().getMessage(),
+                            Snackbar.make(mLeaveRoot, response.body().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> call, Throwable t) {
-                        Toast.makeText(LeaveActivity.this, R.string.error_server_error,
+                        Snackbar.make(mLeaveRoot, R.string.error_server_error,
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -223,19 +226,19 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
                             DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.SLEEP));
-                            Toast.makeText(LeaveActivity.this, "성공적으로 신청되었습니다.",
+                            Snackbar.make(mLeaveRoot, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 
                             finish();
                         } else {
-                            Toast.makeText(LeaveActivity.this, response.body().getMessage(),
+                            Snackbar.make(mLeaveRoot, response.body().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> call, Throwable t) {
-                        Toast.makeText(LeaveActivity.this, R.string.error_server_error,
+                        Snackbar.make(mLeaveRoot, R.string.error_server_error,
                                 Toast.LENGTH_SHORT).show();
                     }
                 });

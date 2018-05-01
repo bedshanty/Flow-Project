@@ -43,7 +43,7 @@ public class DatabaseManager {
         final ArrayList<Leave> leaveList = new ArrayList<>();
 
         for(LeaveTable table : tableList) {
-            Leave leave = new Leave(table.getStartDate(), table.getEndDate(),
+            Leave leave = new Leave(table.getStartTime(), table.getEndTime(),
                     table.getReason(), table.getType());
 
             leaveList.add(leave);
@@ -61,7 +61,7 @@ public class DatabaseManager {
         final ArrayList<Leave> leaveList = new ArrayList<>();
 
         for(LeaveTable table : tableList) {
-            Leave leave = new Leave(table.getStartDate(), table.getEndDate(),
+            Leave leave = new Leave(table.getStartTime(), table.getEndTime(),
                     table.getReason(), table.getType());
 
             leaveList.add(leave);
