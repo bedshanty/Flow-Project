@@ -30,7 +30,7 @@ public class DatabaseManager {
 
     public static void insertLeave(Leave leaveData) {
         SugarRecord.save(new LeaveTable(leaveData.getStartTime(), leaveData.getEndTime(),
-                leaveData.getReason(), leaveData.getLeaveType()));
+                leaveData.getReason(), leaveData.getLeaveType(), leaveData.isConfirmed()));
     }
 
     public static ArrayList<Leave> selectLeave(@LeaveType.Leave final int type) {
@@ -44,7 +44,7 @@ public class DatabaseManager {
 
         for(LeaveTable table : tableList) {
             Leave leave = new Leave(table.getStartTime(), table.getEndTime(),
-                    table.getReason(), table.getType());
+                    table.getReason(), table.getType(), table.isConfirmed());
 
             leaveList.add(leave);
         }
@@ -62,7 +62,7 @@ public class DatabaseManager {
 
         for(LeaveTable table : tableList) {
             Leave leave = new Leave(table.getStartTime(), table.getEndTime(),
-                    table.getReason(), table.getType());
+                    table.getReason(), table.getType(), table.isConfirmed());
 
             leaveList.add(leave);
         }

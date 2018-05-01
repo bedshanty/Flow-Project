@@ -199,7 +199,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
                     @Override
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
-                            DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.OUT));
+                            DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.OUT, false));
                             Snackbar.make(mLeaveRoot, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 
@@ -225,7 +225,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
                     @Override
                     public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> response) {
                         if (response.body().getStatus() == 200) {
-                            DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.SLEEP));
+                            DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.SLEEP, false));
                             Snackbar.make(mLeaveRoot, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 

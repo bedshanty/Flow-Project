@@ -14,6 +14,8 @@
     <string name="prompt_female">여성</string>
     <string name="action_sign_in">로그인</string>
     <string name="action_sign_up">회원가입</string>
+    <string name="action_leave_out">외출</string>
+    <string name="action_leave_sleep">외박</string>
     <string name="error_invalid_email">이메일 형식이 올바르지 않습니다</string>
     <string name="error_invalid_password">패스워드 형식이 올바르지 않습니다</string>
     <string name="error_incorrect_password">패스워드가 틀립니다</string>

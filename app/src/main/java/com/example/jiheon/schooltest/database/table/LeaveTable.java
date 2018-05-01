@@ -12,16 +12,18 @@ public class LeaveTable {
     @Column(name = "end_time")
     private String endTime;
     private String reason;
+    private boolean isConfirmed;
     @LeaveType.Leave
     private int type;
 
     public LeaveTable() { }
 
-    public LeaveTable(String startTime, String endTime, String reason, @LeaveType.Leave int type) {
+    public LeaveTable(String startTime, String endTime, String reason, @LeaveType.Leave int type, boolean isConfirmed) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.reason = reason;
         this.type = type;
+        this.isConfirmed = isConfirmed;
     }
 
     public String getStartTime() { return startTime; }
@@ -29,6 +31,8 @@ public class LeaveTable {
     public String getEndTime() { return endTime; }
 
     public String getReason() { return reason; }
+
+    public boolean isConfirmed() { return isConfirmed; }
 
     @LeaveType.Leave
     public int getType() { return type; }
