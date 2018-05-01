@@ -17,18 +17,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        <meta-data android:name="DATABASE" android:value="flow_database.db"/>
-        <meta-data android:name="VERSION" android:value="3" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example.jiheon.schooltest.database.table" />
+        <meta-data
+            android:name="DATABASE"
+            android:value="flow_database.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="3" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.example.jiheon.schooltest.database.table" />
 
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.MealActivity" />
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/title_activity_login" >
-
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,6 +45,7 @@
             android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_register" />
         <activity android:name=".activity.LeaveActivity" />
+        <activity android:name=".activity.LeaveListActivity"></activity>
     </application>
 
 </manifest>
