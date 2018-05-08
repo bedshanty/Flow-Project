@@ -1,6 +1,9 @@
-package com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response;
+package com.example.jiheon.schooltest.network.networkModel.Sleep.Response;
+
+import com.google.gson.annotations.SerializedName;
 
 public class Data {
+    @SerializedName("sleep_out")
     private SleepOut sleepOut;
 
     public SleepOut getGoOut() { return sleepOut; }

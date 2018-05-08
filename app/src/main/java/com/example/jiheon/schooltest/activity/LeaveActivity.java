@@ -31,6 +31,9 @@ import com.example.jiheon.schooltest.RetrofitBuilder;
 import com.example.jiheon.schooltest.Utils;
 import com.example.jiheon.schooltest.type.LeaveType;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -63,8 +66,8 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
     private DateTime mEndTime = new DateTime();
 
     private NetworkService mService;
-    private Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> mOutRequest;
-    private Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> mSleepRequest;
+    private Call<com.example.jiheon.schooltest.network.networkModel.Out.Response.Response> mOutRequest;
+    private Call<com.example.jiheon.schooltest.network.networkModel.Sleep.Response.Response> mSleepRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,52 +195,66 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
 
             if(type == 0) {
                 mOutRequest = mService.out(DatabaseManager.selectToken(),
-                        new com.example.jiheon.schooltest.network.jsonTypes.Out.Request.Request(
+                        new com.example.jiheon.schooltest.network.networkModel.Out.Request.Request(
                                 startDate, endDate, mOutReason.getText().toString()));
 
-                mOutRequest.enqueue(new Callback<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response>() {
+                mOutRequest.enqueue(new Callback<com.example.jiheon.schooltest.network.networkModel.Out.Response.Response>() {
                     @Override
-                    public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> response) {
-                        if (response.body().getStatus() == 200) {
+                    public void onResponse(Call<com.example.jiheon.schooltest.network.networkModel.Out.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.networkModel.Out.Response.Response> response) {
+                        if(response.errorBody() != null) {
+                            try {
+                                Snackbar.make(mLeaveRoot, new JSONObject(response.errorBody().toString())
+                                        .getString("message"), Snackbar.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (response.body().getStatus() == 200) {
                             DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.OUT, false));
                             Snackbar.make(mLeaveRoot, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 
                             finish();
                         } else {
-                            Snackbar.make(mLeaveRoot, response.body().getMessage(),
+                            Snackbar.make(mLeaveRoot, R.string.error_server_error,
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<com.example.jiheon.schooltest.network.jsonTypes.Out.Response.Response> call, Throwable t) {
+                    public void onFailure(Call<com.example.jiheon.schooltest.network.networkModel.Out.Response.Response> call, Throwable t) {
                         Snackbar.make(mLeaveRoot, R.string.error_server_error,
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
                 mSleepRequest = mService.sleep(DatabaseManager.selectToken(),
-                        new com.example.jiheon.schooltest.network.jsonTypes.Sleep.Request.Request(
+                        new com.example.jiheon.schooltest.network.networkModel.Sleep.Request.Request(
                                 startDate, endDate, reason));
 
-                mSleepRequest.enqueue(new Callback<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response>() {
+                mSleepRequest.enqueue(new Callback<com.example.jiheon.schooltest.network.networkModel.Sleep.Response.Response>() {
                     @Override
-                    public void onResponse(Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> response) {
-                        if (response.body().getStatus() == 200) {
+                    public void onResponse(Call<com.example.jiheon.schooltest.network.networkModel.Sleep.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.networkModel.Sleep.Response.Response> response) {
+                        if(response.errorBody() != null) {
+                            try {
+                                Snackbar.make(mLeaveRoot, new JSONObject(response.errorBody().toString())
+                                        .getString("message"), Snackbar.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (response.body().getStatus() == 200) {
                             DatabaseManager.insertLeave(new Leave(startDate, endDate, reason, LeaveType.SLEEP, false));
                             Snackbar.make(mLeaveRoot, "성공적으로 신청되었습니다.",
                                     Toast.LENGTH_SHORT).show();
 
                             finish();
                         } else {
-                            Snackbar.make(mLeaveRoot, response.body().getMessage(),
+                            Snackbar.make(mLeaveRoot, R.string.error_server_error,
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response.Response> call, Throwable t) {
+                    public void onFailure(Call<com.example.jiheon.schooltest.network.networkModel.Sleep.Response.Response> call, Throwable t) {
                         Snackbar.make(mLeaveRoot, R.string.error_server_error,
                                 Toast.LENGTH_SHORT).show();
                     }

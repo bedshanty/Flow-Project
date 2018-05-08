@@ -1,4 +1,4 @@
-package com.example.jiheon.schooltest.network.jsonTypes.Login.Response;
+package com.example.jiheon.schooltest.network.networkModel.Login.Response;
 
 public class Data {
     private String token;

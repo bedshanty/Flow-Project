@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -38,8 +37,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.example.jiheon.schooltest.network.NetworkService;
-import com.example.jiheon.schooltest.network.jsonTypes.Register.Request.Request;
-import com.example.jiheon.schooltest.network.jsonTypes.Register.Response.Response;
+import com.example.jiheon.schooltest.network.networkModel.Register.Request.Request;
+import com.example.jiheon.schooltest.network.networkModel.Register.Response.Response;
 import com.example.jiheon.schooltest.R;
 import com.example.jiheon.schooltest.RetrofitBuilder;
 import com.example.jiheon.schooltest.Utils;
@@ -50,8 +49,6 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.READ_CONTACTS;
 

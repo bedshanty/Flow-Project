@@ -1,4 +1,4 @@
-package com.example.jiheon.schooltest.network.jsonTypes.Login.Response;
+package com.example.jiheon.schooltest.network.networkModel.Out.Response;
 
 public class Response {
     private int status;

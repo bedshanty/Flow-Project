@@ -1,12 +1,18 @@
-package com.example.jiheon.schooltest.network.jsonTypes.Out.Response;
+package com.example.jiheon.schooltest.network.networkModel.Sleep.Response;
 
-public class GoOut {
+import com.google.gson.annotations.SerializedName;
+
+public class SleepOut {
     private int accept;
     private int idx;
+    @SerializedName("start_time")
     private String startTime;
+    @SerializedName("end_time")
     private String endTime;
     private String reason;
+    @SerializedName("class_idx")
     private int classIdx;
+    @SerializedName("student_email")
     private String studentEmail;
 
     public int getAccept() { return accept; }

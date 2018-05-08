@@ -1,4 +1,6 @@
-package com.example.jiheon.schooltest.network.jsonTypes.Register.Request;
+package com.example.jiheon.schooltest.network.networkModel.Register.Request;
+
+import com.google.gson.annotations.SerializedName;
 
 public class Request {
     private String email;
@@ -6,8 +8,10 @@ public class Request {
     private String name;
     private String gender;
     private String mobile;
-    private int class_idx;
-    private int class_number;
+    @SerializedName("class_idx")
+    private int classIdx;
+    @SerializedName("class_number")
+    private int classNumber;
 
     public Request(String email, String pw, String name, String gender, String mobile,
                    int classIdx, int classNumber) {
@@ -17,8 +21,8 @@ public class Request {
         this.name = name;
         this.gender = gender;
         this.mobile = mobile;
-        this.class_idx = classIdx;
-        this.class_number = classNumber;
+        this.classIdx = classIdx;
+        this.classNumber = classNumber;
     }
 
     public String getEmail() { return email; }
@@ -36,11 +40,11 @@ public class Request {
     public String getMobile() { return mobile; }
     public void setMobile(String value) { this.mobile = value; }
 
-    public int getClass_idx() { return class_idx; }
+    public int getClassIdx() { return classIdx; }
 
-    public void setClass_idx(int class_idx) { this.class_idx = class_idx; }
+    public void setClassIdx(int classIdx) { this.classIdx = classIdx; }
 
-    public int getClass_number() { return class_number; }
+    public int getClassNumber() { return classNumber; }
 
-    public void setClass_number(int class_number) { this.class_number = class_number; }
+    public void setClassNumber(int classNumber) { this.classNumber = classNumber; }
 }

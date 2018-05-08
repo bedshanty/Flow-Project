@@ -1,4 +1,4 @@
-package com.example.jiheon.schooltest.network.jsonTypes.Sleep.Response;
+package com.example.jiheon.schooltest.network.networkModel.Sleep.Response;
 
 public class Response {
     private int status;

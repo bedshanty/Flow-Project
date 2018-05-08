@@ -1,4 +1,4 @@
-package com.example.jiheon.schooltest.network.jsonTypes.Login.Request;
+package com.example.jiheon.schooltest.network.networkModel.Login.Request;
 
 public class Request {
     private String email;

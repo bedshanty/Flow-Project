@@ -1,6 +1,9 @@
-package com.example.jiheon.schooltest.network.jsonTypes.Out.Response;
+package com.example.jiheon.schooltest.network.networkModel.Out.Response;
+
+import com.google.gson.annotations.SerializedName;
 
 public class Data {
+    @SerializedName("go_out")
     private GoOut goOut;
 
     public GoOut getGoOut() { return goOut; }

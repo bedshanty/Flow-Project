@@ -35,8 +35,8 @@ import com.example.jiheon.schooltest.RetrofitBuilder;
 import com.example.jiheon.schooltest.Utils;
 import com.example.jiheon.schooltest.database.DatabaseManager;
 import com.example.jiheon.schooltest.network.NetworkService;
-import com.example.jiheon.schooltest.network.jsonTypes.Login.Request.Request;
-import com.example.jiheon.schooltest.network.jsonTypes.Login.Response.Response;
+import com.example.jiheon.schooltest.network.networkModel.Login.Request.Request;
+import com.example.jiheon.schooltest.network.networkModel.Login.Response.Response;
 
 import java.util.ArrayList;
 import java.util.List;

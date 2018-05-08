@@ -12,6 +12,7 @@ public class LeaveTable {
     @Column(name = "end_time")
     private String endTime;
     private String reason;
+    @Column(name = "is_confirmed")
     private boolean isConfirmed;
     @LeaveType.Leave
     private int type;

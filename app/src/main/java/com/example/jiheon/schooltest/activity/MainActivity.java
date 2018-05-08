@@ -13,6 +13,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.jiheon.schooltest.DateTimeHelper;
+import com.example.jiheon.schooltest.adapter.LeaveListAdapter;
 import com.example.jiheon.schooltest.type.MealType;
 import com.example.jiheon.schooltest.model.DateTime;
 import com.example.jiheon.schooltest.network.asyncTasks.MealParser;
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements MealParser.MealRe
 
     @OnClick(R.id.outBtn)
     public void outBtnClicked(View view) {
-        Intent intent = new Intent(MainActivity.this, LeaveActivity.class);
+        Intent intent = new Intent(MainActivity.this, LeaveListActivity.class);
         startActivity(intent);
     }
 
