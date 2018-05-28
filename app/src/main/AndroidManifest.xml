@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jiheon.schooltest">
+    package="kr.hs.dgsw.flow">
 
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
 
@@ -28,7 +28,7 @@
             android:value="true" />
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.example.jiheon.schooltest.database.table" />
+            android:value="kr.hs.dgsw.flow.database.table" />
 
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.MealActivity" />

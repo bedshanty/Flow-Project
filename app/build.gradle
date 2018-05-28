@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.example.jiheon.schooltest"
+        applicationId "kr.hs.dgsw.flow"
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 1
@@ -38,4 +38,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.github.satyan:sugar:1.5'
+    implementation 'com.google.firebase:firebase-core:15.0.2'
 }
+
+apply plugin: 'com.google.gms.google-services'

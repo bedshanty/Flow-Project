@@ -5,7 +5,7 @@
     android:id="@+id/main_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jiheon.schooltest.activity.MainActivity">
+    tools:context="kr.hs.dgsw.flow.activity.MainActivity">
 
     <Button
         android:id="@+id/mealBtn"
