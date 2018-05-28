@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.jiheon.schooltest.DateTimeHelper;
 import com.example.jiheon.schooltest.database.DatabaseManager;
 import com.example.jiheon.schooltest.model.DateTime;
 import com.example.jiheon.schooltest.model.Leave;
@@ -35,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,8 +64,11 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
 
     private boolean mStart;
     
-    private DateTime mStartTime = new DateTime();
-    private DateTime mEndTime = new DateTime();
+    private DateTime mStartTime;
+    private DateTime mEndTime;
+
+    private Calendar mStartCal;
+    private Calendar mEndCal;
 
     private NetworkService mService;
     private Call<com.example.jiheon.schooltest.network.networkModel.Out.Response.Response> mOutRequest;
@@ -76,6 +81,12 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
 
         ButterKnife.bind(this);
 
+        mStartTime = new DateTime();
+        mEndTime = new DateTime();
+
+        mStartCal = Calendar.getInstance();
+        mEndCal = Calendar.getInstance();
+
         mRadioButton1.setChecked(true);
 
         mStartDateSpinner.setOnKeyListener(onKeyStartDateListener);
@@ -85,11 +96,37 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
 
         mService = new RetrofitBuilder().getService();
 
-        ArrayList<Leave> leaveList = DatabaseManager.selectAllLeave();
+        DateTime currentDateTime = Utils.getCurrentDateTime();
 
-        for(Leave leave : leaveList) {
-            Log.e("Leave", leave.getReason());
-        }
+        mStartTime.setYear(currentDateTime.getYear());
+        mStartTime.setMonth(currentDateTime.getMonth());
+        mStartTime.setDay(currentDateTime.getDay());
+
+        mStartTime.setHour(currentDateTime.getHour());
+        mStartTime.setMin(currentDateTime.getMin());
+
+        String date = String.valueOf(currentDateTime.getYear()) + "년 "
+                + String.valueOf(currentDateTime.getMonth()) + "월 "
+                + String.valueOf(currentDateTime.getDay()) + "일";
+
+        ArrayList<String> tempDateArray = new ArrayList<>();
+        tempDateArray.add(date);
+
+        ArrayAdapter<String> tempDateAdapter = new ArrayAdapter<>(this,
+                R.layout.spinner_item, tempDateArray);
+
+        mStartDateSpinner.setAdapter(tempDateAdapter);
+
+        String time = String.valueOf(currentDateTime.getHour()) + "시 "
+                + String.valueOf(currentDateTime.getMin()) + "분";
+
+        ArrayList<String> tempTimeArray = new ArrayList<>();
+        tempTimeArray.add(time);
+
+        ArrayAdapter<String> tempTimeAdapter = new ArrayAdapter<>(this,
+                R.layout.spinner_item, tempTimeArray);
+
+        mStartTimeSpinner.setAdapter(tempTimeAdapter);
     }
 
     @OnTouch(R.id.out_start_date_spinner)
@@ -178,8 +215,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
 
     @OnClick(R.id.out_submit_btn)
     public void onClickSubmit(View v) {
-        if(mStartTime.getYear() < 0 || mStartTime.getHour() < 0 ||
-                mEndTime.getYear() < 0 || mEndTime.getHour() < 0) {
+        if(isDateBlank()) {
             Snackbar.make(mLeaveRoot, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
         } else if(TextUtils.isEmpty(mOutReason.getText().toString())) {
             Snackbar.make(mLeaveRoot, "사유를 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -203,9 +239,9 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
                     public void onResponse(Call<com.example.jiheon.schooltest.network.networkModel.Out.Response.Response> call, retrofit2.Response<com.example.jiheon.schooltest.network.networkModel.Out.Response.Response> response) {
                         if(response.errorBody() != null) {
                             try {
-                                Snackbar.make(mLeaveRoot, new JSONObject(response.errorBody().toString())
+                                Snackbar.make(mLeaveRoot, new JSONObject(response.errorBody().string())
                                         .getString("message"), Snackbar.LENGTH_SHORT).show();
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else if (response.body().getStatus() == 200) {
@@ -215,7 +251,7 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
 
                             finish();
                         } else {
-                            Snackbar.make(mLeaveRoot, R.string.error_server_error,
+                            Snackbar.make(mLeaveRoot, response.body().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -297,6 +333,21 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
             mEndTime.setMonth(month);
             mEndTime.setDay(day);
         }
+
+        if(!isDateBlank()) {
+            mStartCal.set(mStartTime.getYear(), mStartTime.getMonth() - 1, mStartTime.getDay());
+            mEndCal.set(mEndTime.getYear(), mEndTime.getMonth() - 1, mEndTime.getDay());
+
+            int compare = mEndCal.compareTo(mStartCal);
+
+            if(compare < 0) {
+                mRadioButton1.setChecked(false);
+                mRadioButton2.setChecked(true);
+            } else if(compare == 0) {
+                mRadioButton1.setChecked(true);
+                mRadioButton2.setChecked(false);
+            }
+        }
     }
 
     @Override
@@ -320,5 +371,14 @@ public class LeaveActivity extends FragmentActivity implements DatePickerDialog.
             mEndTime.setHour(hour);
             mEndTime.setMin(minute);
         }
+    }
+
+    /**
+     * 사용자가 날짜를 모두 입력했는지 확인
+     * @return 빈 칸이 있으면 true, 모두 입력했으면 false
+     */
+    public boolean isDateBlank() {
+        return mStartTime.getMonth() < 0 || mStartTime.getHour() < 0 ||
+                mEndTime.getMonth() < 0 || mEndTime.getHour() < 0;
     }
 }

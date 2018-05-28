@@ -19,7 +19,7 @@ public class DatabaseManager {
 
     public static String selectToken() {
         return Select.from(TokenTable.class)
-                .orderBy("id")
+                .orderBy("id DESC")
                 .first()
                 .getToken();
     }

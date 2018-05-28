@@ -11,14 +11,15 @@ import com.example.jiheon.schooltest.R;
 import com.example.jiheon.schooltest.model.Leave;
 import com.example.jiheon.schooltest.type.LeaveType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LeaveListAdapter extends RecyclerView.Adapter {
 
     final private List<Leave> mDataList;
 
-    public LeaveListAdapter(List<Leave> dataList) {
-        this.mDataList = dataList;
+    public LeaveListAdapter() {
+        mDataList = new ArrayList<>();
     }
 
     @Override
@@ -81,4 +82,8 @@ public class LeaveListAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return mDataList.size();
     }
+
+    public void addItem(Leave leave) { mDataList.add(leave); }
+
+    public void clearData() { mDataList.clear(); }
 }

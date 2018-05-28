@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,5 +73,19 @@ public class Utils {
                 + String.format("%02d", dateTime.getMin());
 
         return dateFormat;
+    }
+
+    public static DateTime getCurrentDateTime() {
+        final DateTime dateTime = new DateTime();
+        final Calendar cal = Calendar.getInstance();
+
+        dateTime.setYear(cal.get(Calendar.YEAR));
+        dateTime.setMonth(cal.get(Calendar.MONTH) + 1);
+        dateTime.setDay(cal.get(Calendar.DAY_OF_MONTH));
+
+        dateTime.setHour(cal.get(Calendar.HOUR));
+        dateTime.setMin(cal.get(Calendar.MINUTE));
+
+        return dateTime;
     }
 }

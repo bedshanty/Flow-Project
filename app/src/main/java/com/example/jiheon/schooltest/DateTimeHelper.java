@@ -4,8 +4,6 @@ import com.example.jiheon.schooltest.activity.MainActivity;
 import com.example.jiheon.schooltest.model.DateTime;
 import com.example.jiheon.schooltest.type.MealType;
 
-import java.util.Calendar;
-
 /**
  * Created by JiHeon on 2018-03-20.
  */
@@ -21,9 +19,7 @@ public class DateTimeHelper {
     // 현재 시간을 기준으로 하는 급식 파싱에 사용되는 생성자
     public DateTimeHelper() {
         // Calendar 객체를 통해 현재 년, 월, 일 계산
-        Calendar cal = Calendar.getInstance();
-        dateTime = new DateTime(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1,
-                cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
+        dateTime = Utils.getCurrentDateTime();
 
         // 시간을 이용해 Utils 계산
         setMealType(dateTime.getHour(), dateTime.getMin());

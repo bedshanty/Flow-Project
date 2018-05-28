@@ -109,14 +109,16 @@
                 android:id="@+id/out_radio_button1"
                 android:text="외출"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:clickable="false"/>
 
             <RadioButton
                 android:id="@+id/out_radio_button2"
                 android:text="외박"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp" />
+                android:layout_marginStart="20dp"
+                android:clickable="false"/>
         </RadioGroup>
 
     </android.support.constraint.ConstraintLayout>

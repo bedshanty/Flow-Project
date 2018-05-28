@@ -5,17 +5,19 @@ import com.orm.dsl.Column;
 import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
-@Table
+@Table(name = "leave_table")
 public class LeaveTable {
     @Column(name = "start_time")
     private String startTime;
     @Column(name = "end_time")
     private String endTime;
+    @Column(name = "reason")
     private String reason;
-    @Column(name = "is_confirmed")
-    private boolean isConfirmed;
+    @Column(name = "type")
     @LeaveType.Leave
     private int type;
+    @Column(name = "is_confirmed")
+    private boolean isConfirmed;
 
     public LeaveTable() { }
 
