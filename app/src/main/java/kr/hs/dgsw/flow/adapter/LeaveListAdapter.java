@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.model.Leave;
 import kr.hs.dgsw.flow.type.LeaveType;
@@ -43,22 +45,21 @@ public class LeaveListAdapter extends RecyclerView.Adapter {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.leave_list_image)
         ImageView typeIcon;
+        @BindView(R.id.leave_list_icon)
         ImageView confirmIcon;
-
+        @BindView(R.id.leave_list_title)
         TextView title;
+        @BindView(R.id.leave_list_start_time)
         TextView startTime;
+        @BindView(R.id.leave_list_end_time)
         TextView endTime;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            typeIcon = itemView.findViewById(R.id.leave_list_image);
-            confirmIcon = itemView.findViewById(R.id.leave_list_icon);
-
-            title = itemView.findViewById(R.id.leave_list_title);
-            startTime = itemView.findViewById(R.id.leave_list_start_time);
-            endTime = itemView.findViewById(R.id.leave_list_end_time);
+            ButterKnife.bind(this, itemView);
         }
 
         void bind(Leave leave) {
