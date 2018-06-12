@@ -30,6 +30,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.RetrofitBuilder;
 import kr.hs.dgsw.flow.Utils;
@@ -206,7 +208,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             password = Utils.encryptSHA512(password);
 
-            Call<Response> mRequest = mService.login(new Request(email, password));
+            Call<Response> mRequest = mService.login(
+                    new Request(email, password, FirebaseInstanceId.getInstance().getToken()));
             mRequest.enqueue(new Callback<Response>() {
                 @Override
                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
